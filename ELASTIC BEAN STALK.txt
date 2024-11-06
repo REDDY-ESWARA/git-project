@@ -1,0 +1,32 @@
+ELASTIC BEAN STALK
+
+TO AUTOMATICALLY CREATES EC2, LOAD BALANCER , AUTOSCALING GROUPS  
+   WE NEED TO CONFIGURE ONLY ONCE – AFTER THAT WE CAN JUST UPLOAD THE  FILE OR DOCKER IMAGE.
+
+
+PRACTICLE :
+   Pre requsties : excutable file (.jar file)
+       For jar.file :  ec2 instance with port:8080>  connect to bash > connect to server > install git ,maven & java 17 > ls > cd spring-boot  > mvn clean package > target folder > jar file  
+
+Copy to local from : 
+                      (path of pem file)
+$  scp -i "C:/Users/reddy/downloads/Mukund.pem" ec2-user@54.172.103.55:/home/ec2-user/springboot-hello/target/gs-spring-boot-0.1.0.jar "C:/DevOps-Practicle"
+         { source – destination } 
+
+CREATING ELASTIC BEAN STALK 
+
+      Aws > Search > Elastic bean stalk > create > name > create environment 
+
+webserver environment >Appllication Name > domain (optional) > managed > platform – java > platform branch – java 17 or morethan 17 > application > version 1 > upload > choose file > preset - free tier >  service configuration .> service role > create > – need to create IAM roles  ( view permissions & policies)
+
+  creating IAM roles > goto iam > create 2 roles >  naming 1 role – copy pasting from (view permissions & policies – adding policies ) > naming 2 role – copy pasting from (view permissions & policies – adding policies) 
+Back to environment > select existing roles > select key pair > vpc > pub ip – enable > vpc subnets >  root volume – gp3 > security group : 8080 > environment type : single > on- demand > instance type : t2  micro >  monitoring > enhanced > managed (no need to edit) > application deploy : all  at once > env properties  : add port : 8080 > add > submit > 
+
+Created environment > view environment:8080 > or automatically one instance created itself – with pub ip : 8080 > we can see application
+
+If code changed in file > we  need to upload & deploy new file in environment 
+
+Toget new file (java file ) – edit in github – pull or vi jar file in bash 
+  after again do mvn install package in bash  and again copy to local and use the updated file 
+
+     
